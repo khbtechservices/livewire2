@@ -42,10 +42,10 @@ class Profile extends Component
             'username' => 'required|alpha_num|min:6|max:30',
             'about' => 'max:120',
             'birthday' => 'sometimes',
-            'newAvatar' => 'image|max:20'
+            'newAvatar' => 'nullable|image|max:20'
         ]);
 
-        $data['avatar'] = $this->newAvatar->store('/', 'avatars');
+        $data['avatar'] = $this->newAvatar ? $this->newAvatar->store('/', 'avatars') : auth()->user()->avatar;
 
         auth()->user()->update($data);
 
@@ -64,7 +64,7 @@ class Profile extends Component
     }
 
     public function updatedNewAvatar() {
-        $this->validate( ['newAvatar' => 'image|max:20'] );
+        $this->validate( ['newAvatar' => 'nullable|image|max:20'] );
     }
 
     public function updatedUsername() {
