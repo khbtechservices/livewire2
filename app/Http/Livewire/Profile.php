@@ -20,6 +20,14 @@ class Profile extends Component
 
     public $newAvatar;
 
+    protected $rules = [
+        'name' => 'required|max:60',
+        'username' => 'required|alpha_num|min:6|max:30',
+        'about' => 'max:120',
+        'birthday' => 'sometimes',
+        'newAvatar' => 'nullable|image|max:20'
+    ];
+
 
     public function mount() {
 
@@ -37,13 +45,7 @@ class Profile extends Component
 
     public function save() {
 
-        $data = $this->validate([
-            'name' => 'required|max:60',
-            'username' => 'required|alpha_num|min:6|max:30',
-            'about' => 'max:120',
-            'birthday' => 'sometimes',
-            'newAvatar' => 'nullable|image|max:20'
-        ]);
+        $data = $this->validate();
 
         $data['avatar'] = $this->newAvatar ? $this->newAvatar->store('/', 'avatars') : auth()->user()->avatar;
 
