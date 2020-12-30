@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 use Livewire\Livewire;
 
-use App\User;
+use App\Models\User;
 
 
 class ProfileTest extends TestCase

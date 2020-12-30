@@ -8,7 +8,7 @@ use Livewire\Livewire;
 
 use Tests\TestCase;
 
-use App\User;
+use App\Models\User;
 
 class RegistrationTest extends TestCase
 {

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
 
-use App\User;
+use App\Models\User;
 
 use Illuminate\Support\Facades\Hash;
 

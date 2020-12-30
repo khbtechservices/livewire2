@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 use Livewire\Livewire;
 
-use App\User;
+use App\Models\User;
 
 class LoginTest extends TestCase
 {

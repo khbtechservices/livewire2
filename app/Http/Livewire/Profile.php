@@ -6,7 +6,7 @@ use Livewire\Component;
 
 use Livewire\withFileUploads;
 
-use App\User;
+use App\Models\User;
 
 class Profile extends Component
 {
