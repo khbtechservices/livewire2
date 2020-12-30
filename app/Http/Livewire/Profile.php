@@ -55,11 +55,6 @@ class Profile extends Component
 
     }
 
-    public function render()
-    {
-        return view('livewire.profile');
-    }
-
     public function updatedAbout() {
         $this->validate( ['about'=>'max:120'] );
     }
