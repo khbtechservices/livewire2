@@ -6,72 +6,70 @@ use Livewire\Component;
 
 use Livewire\withFileUploads;
 
+use App\User;
+
 class Profile extends Component
 {
     use withFileUploads;
 
-    public $name = '';
+    public $user;
 
-    public $username = '';
-
-    public $about = '';
-
-    public $birthday = null;
-
-    public $newAvatar;
+    public $upload;
 
     protected $rules = [
-        'name' => 'required|max:60',
-        'username' => 'required|alpha_num|min:6|max:30',
-        'about' => 'max:120',
-        'birthday' => 'sometimes',
-        'newAvatar' => 'nullable|image|max:20'
+        'user.name' => 'required|max:60',
+        'user.username' => 'required|alpha_num|min:6|max:30',
+        'user.about' => 'max:120',
+        'user.birthday' => 'sometimes',
+        'upload' => 'image|max:30|nullable'
     ];
 
 
     public function mount() {
 
-        $user = auth()->user();
-
-        $this->name = $user->name;
-
-        $this->username = $user->username;
-
-        $this->about = $user->about;
-
-        $this->birthday = optional($user->birthday)->format('m/d/Y');
+        $this->user = auth()->user();
 
     }
 
     public function save() {
 
-        $data = $this->validate();
+        $this->validate();
 
-        $data['avatar'] = $this->newAvatar ? $this->newAvatar->store('/', 'avatars') : auth()->user()->avatar;
+        $this->user->save();
 
-        auth()->user()->update($data);
+        if($this->upload) {
 
-        // session()->flash('notify-saved');
+            $filename = $this->upload->store('/', 'avatars');
+
+            // $this->user->avatar = $filename;
+            //
+            // $this->user->save();
+
+            auth()->user()->update([
+                'avatar' => $filename
+            ]);
+
+        }
 
         $this->emitSelf('notify-saved');
 
     }
 
-    public function updatedAbout() {
-        $this->validate( ['about'=>'max:120'] );
+    public function updatedUpload() {
+        $this->validate( ['upload' => 'image|max:30'] );
     }
 
-    public function updatedName() {
-        $this->validate( ['name' => 'max:60'] );
+    public function updatedUserAbout() {
+        $this->validate( ['user.about'=>'max:120'] );
     }
 
-    public function updatedNewAvatar() {
-        $this->validate( ['newAvatar' => 'nullable|image|max:20'] );
+    public function updatedUserName() {
+        $this->validate( ['user.name' => 'max:60'] );
     }
 
-    public function updatedUsername() {
+    public function updatedUserUsername() {
 
-        $this->validate( ['username' => 'alpha_num|min:6|max:30'] );
+        $this->validate( ['user.username' => 'alpha_num|min:6|max:30'] );
 
     }
 

@@ -15,19 +15,9 @@
 
                         <div>
 
-                            <x-input.group label="Name" for="name" :error="$errors->first('name')">
+                            <x-input.group label="Name" for="name" :error="$errors->first('user.name')">
 
-                                <x-input.text wire:model="name" id="name" name="name" />
-
-                            </x-input.group>
-
-                        </div>
-
-                        <div>
-
-                            <x-input.group label="Username" for="username" :error="$errors->first('username')">
-
-                                <x-input.text wire:model="username" id="username" name="username" trailing-add-on="@pneuma.com"/>
+                                <x-input.text wire:model="user.name" id="name" name="name" />
 
                             </x-input.group>
 
@@ -35,19 +25,9 @@
 
                         <div>
 
-                            <x-input.group label="Birthday" for="birthday" :error="$errors->first('birthday')">
+                            <x-input.group label="Username" for="username" :error="$errors->first('user.username')">
 
-                                <x-input.date wire:model="birthday" id="birthday" name="birthday" placeholder="MM/DD/YYYY" />
-
-                            </x-input.group>
-
-                        </div>
-
-                        <div>
-
-                            <x-input.group label="About" for="about" help-text="A sentence or two about yourself (max 120 chars)." :error="$errors->first('about')">
-
-                                <x-input.textarea-rich wire:model="about" id="about" name="about" />
+                                <x-input.text wire:model="user.username" id="username" name="username" trailing-add-on="@pneuma.com"/>
 
                             </x-input.group>
 
@@ -55,15 +35,35 @@
 
                         <div>
 
-                            <x-input.group label="Photo" for="photo" :error="$errors->first('newAvatar')">
+                            <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')">
 
-                                <x-input.file-upload id="file" wire:model="newAvatar">
+                                <x-input.date wire:model="user.birthday" id="birthday" name="birthday" placeholder="MM/DD/YYYY" />
+
+                            </x-input.group>
+
+                        </div>
+
+                        <div>
+
+                            <x-input.group label="About" for="about" help-text="A sentence or two about yourself (max 120 chars)." :error="$errors->first('user.about')">
+
+                                <x-input.textarea-rich wire:model="user.about" id="about" name="about" :initial="$user->about"/>
+
+                            </x-input.group>
+
+                        </div>
+
+                        <div>
+
+                            <x-input.group label="Photo" for="photo" :error="$errors->first('upload')">
+
+                                <x-input.file-upload id="file" wire:model="upload">
 
                                     <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
 
                                         <img
                                             class="inline-block h-12 w-12 rounded-full"
-                                            src="{{ $newAvatar ? $newAvatar->temporaryUrl() : auth()->user()->avatarUrl() }}"
+                                            src="{{ $upload ? $upload->temporaryUrl() : auth()->user()->avatarUrl() }}"
                                             alt="Profile Pic"
                                         >
 

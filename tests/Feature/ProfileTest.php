@@ -6,7 +6,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use Illuminate\Http\UploadedFile;
+
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 use Livewire\Livewire;
 
 use App\User;
@@ -37,8 +41,8 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->set('username', 'foobar')
-            ->set('about', 'bar')
+            ->set('user.username', 'foobar')
+            ->set('user.about', 'bar')
             ->call('save');
 
         $user->refresh();
@@ -47,6 +51,75 @@ class ProfileTest extends TestCase
         $this->assertEquals('bar', $user->about);
 
     }
+
+    /** @test **/
+    function can_upload_avatar() {
+
+        $user = factory(User::class)->create([
+            'username' => Str::random(20)
+        ]);
+
+        $file = UploadedFile::fake()->image('avatar.png');
+
+        Storage::fake('avatars');
+
+        Livewire::actingAs($user)
+            ->test('profile')
+            ->set('upload', $file)
+            ->call('save');
+
+        $user->refresh();
+
+        // dd($user);
+
+        Storage::disk('avatars')->assertExists($user->avatar);
+
+        $this->assertNotNull($user->avatar);
+
+
+    }
+
+    /** @test **/
+    // function upload_meets_type_requirement() {
+    //
+    //     $user = factory(User::class)->create();
+    //
+    //     $file = UploadedFile::fake()->create('doc.jpg', 20);
+    //
+    //     // dd($file);
+    //
+    //     Storage::fake('avatars');
+    //
+    //     Livewire::actingAs($user)
+    //         ->test('profile')
+    //         ->set('user.username', Str::random(30))
+    //         ->set('upload', $file)
+    //         ->call('save')
+    //         ->assertHasErrors(['upload' => 'image']);
+    //
+    // }
+
+    /** @test **/
+    // function upload_meets_size_requirement() {
+    //
+    //     $user = factory(User::class)->create();
+    //
+    //     $file = UploadedFile::fake()->image('avatar.png')->size(31*1024);
+    //
+    //     dd($file);
+    //
+    //     Storage::fake('avatars');
+    //
+    //     Livewire::actingAs($user)
+    //         ->test('profile')
+    //         ->set('user.username', Str::random(30))
+    //         ->set('upload', $file)
+    //         ->call('save')
+    //         // ->assertHasErrors(['upload' => 'max']);
+    //         ->assertHasErrors('upload');
+    //
+    // }
+
 
     /** @test **/
     function success_message_viewable_upon_save() {
@@ -73,8 +146,8 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->assertSet('username', 'foofoofoo')
-            ->assertSet('about', 'bar');
+            ->assertSet('user.username', 'foofoofoo')
+            ->assertSet('user.about', 'bar');
 
 
     }
@@ -86,9 +159,9 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->set('about', 'bar')
+            ->set('user.about', 'bar')
             ->call('save')
-            ->assertHasErrors(['username' => 'required']);
+            ->assertHasErrors(['user.username' => 'required']);
 
     }
 
@@ -99,10 +172,10 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->set('username', Str::random(5))
-            ->set('about', 'bar')
+            ->set('user.username', Str::random(5))
+            ->set('user.about', 'bar')
             ->call('save')
-            ->assertHasErrors(['username' => 'min']);
+            ->assertHasErrors(['user.username' => 'min']);
 
     }
 
@@ -113,10 +186,10 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->set('username', Str::random(31))
-            ->set('about', 'bar')
+            ->set('user.username', Str::random(31))
+            ->set('user.about', 'bar')
             ->call('save')
-            ->assertHasErrors(['username' => 'max']);
+            ->assertHasErrors(['user.username' => 'max']);
 
     }
 
@@ -127,10 +200,10 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->set('username', 'asdlj!!asdlkad')
-            ->set('about', 'bar')
+            ->set('user.username', 'asdlj!!asdlkad')
+            ->set('user.about', 'bar')
             ->call('save')
-            ->assertHasErrors(['username' => 'alpha_num']);
+            ->assertHasErrors(['user.username' => 'alpha_num']);
 
     }
 
@@ -141,10 +214,10 @@ class ProfileTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('profile')
-            ->set('username', Str::random(10))
-            ->set('about', Str::random(150))
+            ->set('user.username', Str::random(10))
+            ->set('user.about', Str::random(150))
             ->call('save')
-            ->assertHasErrors(['about' => 'max']);
+            ->assertHasErrors(['user.about' => 'max']);
 
     }
 
