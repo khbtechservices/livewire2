@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
     <!-- AlpineJS -->
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.x/dist/alpine.min.js" defer></script>
 
     @livewireStyles
     @stack('styles')
