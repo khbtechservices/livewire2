@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use App\Models\User;
+use App\Models\LogEntry;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@pneuma.com'
         ]);
+
+        LogEntry::factory()->times(10)->create();
     }
 }
