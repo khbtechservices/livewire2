@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@pneuma.com'
         ]);
 
-        LogEntry::factory()->times(10)->create();
+        LogEntry::factory()->times(50)->create();
     }
 }

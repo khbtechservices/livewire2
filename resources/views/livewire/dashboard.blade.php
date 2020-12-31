@@ -1,23 +1,25 @@
-<div>
-    <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
-</div>
+<div class="space-y-6">
 
-<div>
+    <div>
+        <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+    </div>
 
-    <x-table>
+    <div>
 
-        <x-slot name="head">
-            <x-table.heading>Date</x-table.heading>
-            <x-table.heading>Activity</x-table.heading>
-            <x-table.heading>Minutes</x-table.heading>
-            <x-table.heading>Status</x-table.heading>
-        </x-slot>
+        <x-table>
 
-        <x-slot name="body">
+            <x-slot name="head">
+                <x-table.heading>Date</x-table.heading>
+                <x-table.heading>Activity</x-table.heading>
+                <x-table.heading>Minutes</x-table.heading>
+                <x-table.heading>Status</x-table.heading>
+            </x-slot>
 
-            @foreach($entries as $entry)
+            <x-slot name="body">
 
-                <x-table.row>
+                @foreach($entries as $entry)
+
+                <x-table.row wire:key="row-{{ $entry->id }}">
                     <x-table.cell>{{ $entry->date_with_day_of_week }}</x-table.cell>
                     <x-table.cell>
                         {{ Str::limit($entry->activity, 60) }}
@@ -30,10 +32,18 @@
                     </x-table.cell>
                 </x-table.row>
 
-            @endforeach
+                @endforeach
 
-        </x-slot>
+            </x-slot>
 
-    </x-table>
+        </x-table>
+
+    </div>
+
+    <div>
+
+        {{ $entries->links() }}
+
+    </div>
 
 </div>

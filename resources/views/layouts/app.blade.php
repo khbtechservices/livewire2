@@ -108,13 +108,10 @@
                     {{ $slot }}
 
                 </div>
+
             </main>
+            
         </div>
-
-        {{--
-        <x-notification />
-        --}}
-
 
     </div>
 
