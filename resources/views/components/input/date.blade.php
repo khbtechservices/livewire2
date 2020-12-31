@@ -1,8 +1,8 @@
 
 <div
-    x-data
-    x-init = "new Pikaday({field: $refs.input, format: 'MM/DD/YYYY'})"
-    @change = "$dispatch('input', $event.target.value)"
+    x-data = "{ value: @entangle( $attributes->wire('model') ) }"
+    x-init = "new Pikaday({field: $refs.input, format: 'MM/DD/YYYY', defaultDate: '10/03/1976'})"
+    x-on:change="value = $event.target.value"
     class = "flex rounded-md shadow-sm"
 >
 
@@ -15,7 +15,8 @@
     </span>
 
     <input
-        {{$attributes}}
+        {{ $attributes->whereDoesntStartWith('wire:model') }}
+        x-bind:value="value"
         x-ref="input"
         type = "text"
         class = "rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"

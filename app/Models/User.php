@@ -37,7 +37,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'birthday' => 'date'
     ];
 
     public function avatarUrl() {
