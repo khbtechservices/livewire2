@@ -4,9 +4,19 @@
         <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
     </div>
 
-    <div class="">
+    <div class="flex justify-between">
+
         <div class="w-1/4">
             <x-input.text wire:model="search" placeholder="Search..."/>
+        </div>
+
+        <div class="">
+            <x-button.primary wire:click="create">
+                <div class="flex items-center space-x-2">
+                    <span class="h-6 w-6"><x-icon.plus-circle/></span>
+                    <span class="text-lg">New</span>
+                </div>
+            </x-button.primary>
         </div>
     </div>
 
@@ -84,8 +94,14 @@
                 <div class="space-y-3">
 
                     <div class="">
+                        <x-input.group for="activity_date" label="Activity Date"  :error="$errors->first('editing.date_for_editing')">
+                            <x-input.date wire:model="editing.date_for_editing" id="editing.date_for_editing"/>
+                        </x-input.group>
+                    </div>
+
+                    <div class="">
                         <x-input.group for="activity" label="Activity"  :error="$errors->first('editing.activity')">
-                            <x-input.text wire:model="editing.activity"/>
+                            <x-input.text wire:model="editing.activity" placeholder="Activity Description"/>
                         </x-input.group>
                     </div>
 

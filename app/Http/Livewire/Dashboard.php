@@ -25,6 +25,7 @@ class Dashboard extends Component
     public LogEntry $editing;
 
     protected $rules = [ //need rules to bind to model
+        'editing.date_for_editing' => 'required|date',
         'editing.activity' => 'required|max:120',
         'editing.minutes' => 'required|numeric|between:0,120'
     ];
@@ -32,8 +33,8 @@ class Dashboard extends Component
 
     public function edit(LogEntry $entry) { //Livewire v2 will automatically perform the find if it senses the parameter is numeric
 
-        // $entry = LogEntry::find($entryId);
-        $this->editing = $entry;
+        if($this->editing->isNot($entry))
+            $this->editing = $entry;
 
         $this->showEditModal = true;
     }
@@ -43,6 +44,33 @@ class Dashboard extends Component
         $this->showEditModal = false;
 
         $this->editing->refresh();
+
+    }
+
+
+    public function create() {
+
+        if($this->editing->getKey())
+            $this->editing = $this->newBlankLogEntry();
+
+        $this->showEditModal = true;
+
+    }
+
+
+    public function mount() {
+
+        $this->editing = $this->newBlankLogEntry();
+
+    }
+
+
+    public function newBlankLogEntry() {
+
+        return LogEntry::make([
+            'activity_date' => now(),
+            'minutes' => 0
+        ]);
 
     }
 
@@ -88,20 +116,13 @@ class Dashboard extends Component
     public function updated($propertyName) {
 
         $this->validateOnly($propertyName, [
+                'editing.date_for_editing' => 'date',
                 'editing.activity' => 'max:120',
                 'editing.minutes' => 'numeric|between:0,120'
         ]);
 
     }
 
-
-    // public function updatedEditingActivity() {
-    //     $this->validate(['editing.activity' => 'max:60']);
-    // }
-    //
-    // public function updatedEditingMinutes() {
-    //     $this->validate(['editing.minutes' => 'numeric|between:0,120']);
-    // }
 
     private function oppSortDirection() {
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
