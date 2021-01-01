@@ -16,9 +16,9 @@
 
             <x-slot name="head">
                 <x-table.heading>Date</x-table.heading>
-                <x-table.heading>Activity</x-table.heading>
-                <x-table.heading>Minutes</x-table.heading>
-                <x-table.heading>Status</x-table.heading>
+                <x-table.heading sortable>Activity</x-table.heading>
+                <x-table.heading sortable direction="desc">Minutes</x-table.heading>
+                <x-table.heading sortable>Status</x-table.heading>
             </x-slot>
 
             <x-slot name="body">
