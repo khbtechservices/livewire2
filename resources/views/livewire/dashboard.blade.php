@@ -15,10 +15,10 @@
         <x-table>
 
             <x-slot name="head">
-                <x-table.heading>Date</x-table.heading>
-                <x-table.heading sortable>Activity</x-table.heading>
-                <x-table.heading sortable direction="desc">Minutes</x-table.heading>
-                <x-table.heading sortable>Status</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('activity_date')" :direction="$currentSort['activity_date'] ?? null">Date</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('activity')" :direction="$currentSort['activity'] ?? null">Activity</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('minutes')" :direction="$currentSort['minutes'] ?? null">Minutes</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('status')" :direction="$currentSort['status'] ?? null">Status</x-table.heading>
             </x-slot>
 
             <x-slot name="body">

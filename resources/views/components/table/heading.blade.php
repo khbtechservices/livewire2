@@ -10,7 +10,7 @@
             {{ $slot }}
         </span>
     @else
-        <button class="flex items-center space-x-1 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider group focus:outline-none focus:underline">
+        <button {{ $attributes->except(['class']) }} class="flex items-center space-x-1 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider group focus:outline-none focus:underline">
             <span class="text-gray-900">
                 {{ $slot }}
             </span>
